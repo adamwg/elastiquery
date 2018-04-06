@@ -12,6 +12,7 @@ type ESClient interface {
 	TermQuery(string, string) ESQuery
 	AndQuery(...ESQuery) ESQuery
 	OrQuery(...ESQuery) ESQuery
+	RangeQuery(string, interface{}, interface{}) ESQuery
 }
 
 // ESQuery is a version-independent ElasticSearch query.

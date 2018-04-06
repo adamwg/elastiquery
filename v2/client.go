@@ -51,6 +51,14 @@ func (c *client) OrQuery(queries ...elastiquery.ESQuery) elastiquery.ESQuery {
 	}
 }
 
+func (c *client) RangeQuery(field string, from, to interface{}) elastiquery.ESQuery {
+	return &rangeQuery{
+		field: field,
+		from:  from,
+		to:    to,
+	}
+}
+
 func NewClient(url string) (elastiquery.ESClient, error) {
 	ecl, err := elastic.NewClient(
 		elastic.SetURL(url),

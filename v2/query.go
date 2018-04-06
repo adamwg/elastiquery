@@ -99,6 +99,22 @@ func (bq *boolQuery) ElasticQuery() elastic.Query {
 	return q
 }
 
+type rangeQuery struct {
+	client *elastic.Client
+	field  string
+	from   interface{}
+	to     interface{}
+}
+
+func (rq *rangeQuery) Do(ctx context.Context, index string, opts ...elastiquery.QueryOpt) (elastiquery.ESResult, error) {
+	q := rq.ElasticQuery()
+	return doSearch(ctx, rq.client, index, q, opts...)
+}
+
+func (rq *rangeQuery) ElasticQuery() elastic.Query {
+	return elastic.NewRangeQuery(rq.field).From(rq.from).To(rq.to)
+}
+
 func doSearch(ctx context.Context, client *elastic.Client, index string, query elastic.Query,
 	opts ...elastiquery.QueryOpt) (elastiquery.ESResult, error) {
 
