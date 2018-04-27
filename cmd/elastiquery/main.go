@@ -40,6 +40,8 @@ func main() {
 	timeFrom := flag.String("time-start", "", "Start time for search, in RFC3339 format")
 	timeTo := flag.String("time-end", "", "End time for search, in RFC3339 format")
 
+	quiet := flag.Bool("quiet", false, "Silent or quiet mode. Makes elastiquery mute. It will still output the data you ask for")
+
 	envflag.Parse()
 	flag.Parse()
 
@@ -54,7 +56,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Could not determine ES server version: %v", err)
 	}
-	log.Printf("ES server version is %s", esVersion)
+	if !*quiet {
+		log.Printf("ES server version is %s", esVersion)
+	}
 
 	var client elastiquery.ESClient
 	if strings.HasPrefix(esVersion, "2.") {
