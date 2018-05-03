@@ -11,6 +11,8 @@ import (
 
 	"github.com/adamwg/elastiquery"
 	"github.com/adamwg/elastiquery/v2"
+	"github.com/adamwg/elastiquery/v5"
+	"github.com/adamwg/elastiquery/v6"
 	"github.com/ianschenck/envflag"
 )
 
@@ -59,6 +61,10 @@ func main() {
 	var client elastiquery.ESClient
 	if strings.HasPrefix(esVersion, "2.") {
 		client, err = v2.NewClient(esURL)
+	} else if strings.HasPrefix(esVersion, "5.") {
+		client, err = v5.NewClient(esURL)
+	} else if strings.HasPrefix(esVersion, "6.") {
+		client, err = v6.NewClient(esURL)
 	}
 	if err != nil {
 		log.Fatalf("Error creating ElasticSearch client: %v", err)
